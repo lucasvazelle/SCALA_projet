@@ -1,21 +1,22 @@
 package fr.mosef.scala.template.reader.impl
 
+import fr.mosef.scala.template.reader.Reader
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import com.typesafe.config.ConfigFactory
 
-class ReaderImpl extends Reader {
-  private val config = ConfigFactory.load()
+class ReaderImpl(sparkSession: SparkSession) extends Reader {
 
-  // Lecture de la config depuis application.conf
-  private val separator = config.getString("file.read_separator")
-  private val header = config.getBoolean("file.read_header")
-  private val inferSchema = config.getBoolean("file.schema")
-
-  override def read(path: String)(implicit spark: SparkSession): DataFrame = {
-    spark.read
-      .option("header", header.toString)
-      .option("sep", separator)
-      .option("inferSchema", inferSchema.toString)
-      .csv(path)
+  override def read(srcPath: String, format: String, options: Map[String, String]): DataFrame = {
+    format match {
+      case "csv" =>
+        sparkSession.read
+          .option("header", opt²ions.getOrElse("header", "true"))
+          .option("sep", options.getOrElse("sep", ","))
+          .option("inferSchema", options.getOrElse("inferSchema", "true"))
+          .csv(srcPath)
+      case "parquet" =>
+        sparkSession.read.parquet(srcPath)
+      case _ =>
+        throw new IllegalArgumentException(s"Format de fichier non supporté : $format")
+    }
   }
 }

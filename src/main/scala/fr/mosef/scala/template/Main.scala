@@ -1,12 +1,13 @@
 package fr.mosef.scala.template
-
 import fr.mosef.scala.template.job.Job
 import fr.mosef.scala.template.processor.Processor
 import fr.mosef.scala.template.processor.impl.ProcessorImpl
 import fr.mosef.scala.template.reader.Reader
 import fr.mosef.scala.template.reader.impl.ReaderImpl
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import fr.mosef.scala.template.writer.Writer
+import fr.mosef.scala.template.writer.impl.PartitionerImpl
+
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.SparkConf
 import com.globalmentor.apache.hadoop.fs.BareLocalFileSystem
 import org.apache.hadoop.fs.FileSystem
@@ -14,53 +15,72 @@ import org.apache.hadoop.fs.FileSystem
 object Main extends App with Job {
 
   val cliArgs = args
+
   val MASTER_URL: String = try {
     cliArgs(0)
   } catch {
-    case e: java.lang.ArrayIndexOutOfBoundsException => "local[1]"
+    case _: ArrayIndexOutOfBoundsException => "local[1]"
   }
+
   val SRC_PATH: String = try {
     cliArgs(1)
   } catch {
-    case e: java.lang.ArrayIndexOutOfBoundsException => {
-      print("No input defined")
+    case _: ArrayIndexOutOfBoundsException =>
+      println("❌ Aucun fichier source spécifié.")
       sys.exit(1)
-    }
   }
+
   val DST_PATH: String = try {
     cliArgs(2)
   } catch {
-    case e: java.lang.ArrayIndexOutOfBoundsException => {
-      "./default/output-writer"
-    }
+    case _: ArrayIndexOutOfBoundsException => "./default/output-writer"
   }
 
+  val FORMAT: String = try {
+    cliArgs(3)
+  } catch {
+    case _: ArrayIndexOutOfBoundsException => "csv" // Par défaut, CSV
+  }
+
+  // Configuration Spark
   val conf = new SparkConf()
   conf.set("spark.driver.memory", "64M")
   conf.set("spark.testing.memory", "471859200")
 
-  val sparkSession = SparkSession
-    .builder
+  val sparkSession: SparkSession = SparkSession
+    .builder()
     .master(MASTER_URL)
     .config(conf)
-    .appName("Scala Template")
-    .enableHiveSupport()
+    .appName("Scala Spark Job - CSV to Parquet")
     .getOrCreate()
-  
+
+  // Configuration Hadoop pour éviter les erreurs locales
   sparkSession
     .sparkContext
     .hadoopConfiguration
-    .setClass("fs.file.impl",  classOf[BareLocalFileSystem], classOf[FileSystem])
+    .setClass("fs.file.impl", classOf[BareLocalFileSystem], classOf[FileSystem])
 
+  // Affichage des paramètres
+  println("🚀 Lancement du job avec les paramètres suivants :")
+  println(s"📥 Chemin source : $SRC_PATH")
+  println(s"📤 Chemin destination : $DST_PATH")
+  println(s"📂 Format d'entrée : $FORMAT")
 
-  val reader: Reader = new ReaderImpl(sparkSession)
-  val processor: Processor = new ProcessorImpl()
-  val writer: Writer = new Writer()
-  val src_path = SRC_PATH
-  val dst_path = DST_PATH
+  // Initialisation des composants du Job
+  override val reader: Reader = new ReaderImpl(sparkSession)
+  override val processor: Processor = new ProcessorImpl()
+  override val writer: Writer = new PartitionerImpl()
+  override val srcPath: String = SRC_PATH
+  override val dstPath: String = DST_PATH
+  override val format: String = FORMAT
+  override val options: Map[String, String] = Map("header" -> "true", "sep" -> ",")
 
-  val inputDF: DataFrame = reader.read(src_path)
+  // Exécution du pipeline ETL
+  val inputDF: DataFrame = reader.read(srcPath, format, options)
   val processedDF: DataFrame = processor.process(inputDF)
-  writer.write(processedDF, "overwrite", dst_path)
+  writer.write(processedDF, dstPath)
 
+  // Fermeture de Spark
+  sparkSession.stop()
+  println("✅ Traitement terminé avec succès !")
 }

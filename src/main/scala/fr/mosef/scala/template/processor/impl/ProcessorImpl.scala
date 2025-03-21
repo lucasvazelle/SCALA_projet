@@ -7,8 +7,8 @@ import org.apache.spark.sql.functions._
 class ProcessorImpl extends Processor {
   override def process(inputDF: DataFrame): DataFrame = {
     inputDF
-      .dropDuplicates() // Suppression des doublons parfaits
+      .dropDuplicates() // Suppression des doublons fiche
       .withColumn("processed_at", current_timestamp()) // Ajout d'un timestamp
-      .na.drop() // Supprime les lignes avec des valeurs nulles (optionnel)
+      .drop("colonne_a_supprimer")
   }
 }
