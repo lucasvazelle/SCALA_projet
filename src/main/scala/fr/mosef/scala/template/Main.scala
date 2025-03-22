@@ -7,7 +7,8 @@ import fr.mosef.scala.template.reader.impl.ReaderImpl
 import fr.mosef.scala.template.writer.Writer
 import fr.mosef.scala.template.writer.impl.PartitionerImpl
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.SparkConf
 import com.globalmentor.apache.hadoop.fs.BareLocalFileSystem
 import org.apache.hadoop.fs.FileSystem
@@ -73,8 +74,15 @@ object Main extends App with Job {
   override val srcPath: String = SRC_PATH
   override val dstPath: String = DST_PATH
   override val format: String = FORMAT
-  override val options: Map[String, String] = Map("header" -> "true", "sep" -> ",")
-
+  override val options: Map[String, String] = Map(
+    "header" -> "true",
+    "sep" -> ",",
+    "inferSchema" -> "true",
+    "multiLine" -> "true",  // Gère les valeurs multi-lignes
+    "quote" -> "\"",        // Gère les guillemets
+    "escape" -> "\"",       // Échappe les guillemets
+    "encoding" -> "UTF-8"   // Force l'encodage UTF-8
+  )
   // Exécution du pipeline ETL
   val inputDF: DataFrame = reader.read(srcPath, format, options)
   val processedDF: DataFrame = processor.process(inputDF)

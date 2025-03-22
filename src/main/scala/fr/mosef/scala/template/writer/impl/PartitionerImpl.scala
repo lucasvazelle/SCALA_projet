@@ -5,11 +5,12 @@ import org.apache.spark.sql.DataFrame
 
 class PartitionerImpl extends Writer {
   override def write(df: DataFrame, dstPath: String): Unit = {
+    df.printSchema()
     df.write
       .mode("overwrite")
-      .partitionBy("categorie_de_produit") // Partitionnement des fichiers de sortie
+      .partitionBy("nature_juridique_du_rappel")
       .parquet(dstPath)
 
-    println(s"✅ Données écrites en Parquet avec partitionnement par `categorie_de_produit` dans : $dstPath")
+    println(s"✅ Données écrites en Parquet avec partitionnement par `nature_juridique_du_rappel` dans : $dstPath")
   }
 }

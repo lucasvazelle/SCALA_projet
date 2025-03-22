@@ -15,8 +15,15 @@ trait Job {
   val srcPath: String
   val dstPath: String
   val format: String
-  val options: Map[String, String] = Map("header" -> "true", "sep" -> ",")
-
+  val options: Map[String, String] = Map(
+    "header" -> "true",
+    "sep" -> ",",
+    "inferSchema" -> "true",
+    "multiLine" -> "true",  // Gère les valeurs multi-lignes
+    "quote" -> "\"",        // Gère les guillemets
+    "escape" -> "\"",       // Échappe les guillemets
+    "encoding" -> "UTF-8"   // Force l'encodage UTF-8
+  )
   def run()(implicit spark: SparkSession): Unit = {
     try {
       println(s"📥 Lecture du fichier CSV depuis : $srcPath")

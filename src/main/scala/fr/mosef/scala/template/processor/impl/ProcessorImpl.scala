@@ -7,8 +7,11 @@ import org.apache.spark.sql.functions._
 class ProcessorImpl extends Processor {
   override def process(inputDF: DataFrame): DataFrame = {
     inputDF
-      .dropDuplicates() // Suppression des doublons fiche
+      .dropDuplicates() // Suppression des doublons parfait
       .withColumn("processed_at", current_timestamp()) // Ajout d'un timestamp
-      .drop("colonne_a_supprimer")
+      // Convertir 'reference_fiche' au format date (2021-03-01)
+     .withColumn("date_de_fin_de_la_procedure_de_rappel",
+        regexp_replace(col("date_de_fin_de_la_procedure_de_rappel"),
+          "dimanche|lundi|mardi|mercredi|jeudi|vendredi|samedi", ""))
   }
 }
