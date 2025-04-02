@@ -1,6 +1,8 @@
 # Scala Template
 Routine qui converti à l'aide de scala et  spark des données en fichier parquet avec un retraitement intermédiaire.
 Projet développé par fr.mosef.scala.template
+
+
 **En local**
 
 1. Installer java 11, Scala	2.13.13,  Apache Spark	3.4.2 (avec support Scala 2.13), Apache Spark	3.4.2 (avec support Scala 2.13), 
