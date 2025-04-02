@@ -12,6 +12,9 @@ $ sudo apt install openjdk-11-jdk
 $ ..
 
 2. Lancer
+$ mvn clean package
+
+3. Lancer
 $ /usr/lib/jvm/java-11-openjdk-amd64/bin/java -jar target/scala_spark_mosef_vazelle-1.1-jar-with-dependencies.jar local[1] src/main/resources/rappelconso0.csv /tmp/output/ csv
 
 Options : 
