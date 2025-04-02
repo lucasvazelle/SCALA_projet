@@ -3,10 +3,13 @@ Routine qui converti à l'aide de scala et  spark des données en fichier parque
 
 **En local**
 
-1. Installer java 11
-$ sudo apt install openjdk-11-jdk
+1. Installer java 11, Scala	2.13.13,  Apache Spark	3.4.2 (avec support Scala 2.13), Apache Spark	3.4.2 (avec support Scala 2.13), 
+Maven	3.6+
 
-2. Lancer
+$ sudo apt install openjdk-11-jdk
+$ ..
+
+3. Lancer
 $ /usr/lib/jvm/java-11-openjdk-amd64/bin/java -jar target/scala_spark_mosef_vazelle-1.1-jar-with-dependencies.jar local[1] src/main/resources/rappelconso0.csv /tmp/output/ csv
 
 Options : 
@@ -20,8 +23,14 @@ csv → Format du fichier (peut être csv ou parquet).
 
 **Avec Docker**
 1. Installer docker
+sudo apt docker
 
-2. Lancer 
+2. Build l'image OU pull l'image
+$ docker build -t scala-spark-image .
+ou 
+$ docker pull lucasvazelle/scala-spark-image
+
+3. Lancer 
 $docker run --rm \
   -e MASTER_URL='local[1]' \
   -e SRC_PATH='/data/your_input_file.csv' \
@@ -32,6 +41,48 @@ $docker run --rm \
 
 
 
+
+Arborescence du projet (non exhaustif)
+Projet développé par fr.mosef.scala.template
+
+├── Dockerfile
+├── README.md
+├── default
+├── pom.xml
+├── project
+├── src
+│   └── main 
+│       ├── resources
+│       │   ├── application.conf
+│       │   ├── output
+│       │   ├── rappelconso0.csv
+│       │   └── test_file.csv
+│       └── scala 
+│           └── fr
+│               └── mosef
+│                   └── scala
+│                       └── template
+│                           ├── Main.scala
+│                           ├── job
+│                           │   ├── Job.scala
+│                           │   └── impl
+│                           │       └── JobImpl.scala
+│                           ├── processor
+│                           │   ├── Processor.scala
+│                           │   └── impl
+│                           │       ├── ProcessorImpl.scala
+│                           │       └── processorImpl
+│                           ├── reader
+│                           │   ├── Reader.scala
+│                           │   └── impl
+│                           │       └── ReaderImpl.scala
+│                           └── writer
+│                               ├── Writer.scala
+│                               └── impl
+│                                   └── PartitionerImpl.scala
+└── target  
+    ├── scala_spark_mosef_vazelle-1.1-jar-with-dependencies.jar
+    └── scala_spark_mosef_vazelle-1.1.jar
 
 
 
