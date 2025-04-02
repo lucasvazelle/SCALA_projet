@@ -1,6 +1,6 @@
 # Scala Template
 Routine qui converti à l'aide de scala et  spark des données en fichier parquet avec un retraitement intermédiaire.
-
+Projet développé par fr.mosef.scala.template
 **En local**
 
 1. Installer java 11, Scala	2.13.13,  Apache Spark	3.4.2 (avec support Scala 2.13), Apache Spark	3.4.2 (avec support Scala 2.13), 
@@ -40,86 +40,6 @@ $docker run --rm \
   scala-spark-image
 
 
-
-
-Arborescence du projet (non exhaustif)
-Projet développé par fr.mosef.scala.template
-
-├── Dockerfile
-
-├── README.md
-
-├── default
-
-├── pom.xml
-
-├── project
-
-├── src
-
-│   └── main
-
-│       ├── resources
-
-│       │   ├── application.conf
-
-│       │   ├── output
-
-│       │   ├── rappelconso0.csv
-
-│       │   └── test_file.csv
-
-│       └── scala 
-
-│           └── fr
-
-│               └── mosef
-
-│                   └── scala
-
-│                       └── template
-
-│                           ├── Main.scala
-
-│                           ├── job
-
-│                           │   ├── Job.scala
-
-│                           │   └── impl
-
-│                           │       └── JobImpl.scala
-
-│                           ├── processor
-
-│                           │   ├── Processor.scala
-
-│                           │   └── impl
-
-│                           │       ├── ProcessorImpl.scala
-
-│                           │       └── processorImpl
-
-│                           ├── reader
-
-│                           │   ├── Reader.scala
-
-│                           │   └── impl
-
-│                           │       └── ReaderImpl.scala
-
-│                           └── writer
-
-│                               ├── Writer.scala
-
-│                               └── impl
-
-│                                   └── PartitionerImpl.scala
-
-├── target  
-
-    ├── scala_spark_mosef_vazelle-1.1-jar-with-dependencies.jar
-    
-   ├── scala_spark_mosef_vazelle-1.1.jar
 
 
 
