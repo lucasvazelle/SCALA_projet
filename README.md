@@ -1,7 +1,7 @@
 # Scala Template
 Routine qui converti à l'aide de scala et  spark des données en fichier parquet avec un retraitement intermédiaire.
 
-**#En local**
+**En local**
 
 1. Installer java 11
 $ sudo apt install openjdk-11-jdk
