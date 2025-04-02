@@ -115,11 +115,11 @@ Projet développé par fr.mosef.scala.template
 
 │                                   └── PartitionerImpl.scala
 
-└── target  
+├── target  
 
     ├── scala_spark_mosef_vazelle-1.1-jar-with-dependencies.jar
     
-    └── scala_spark_mosef_vazelle-1.1.jar
+   ├── scala_spark_mosef_vazelle-1.1.jar
 
 
 
