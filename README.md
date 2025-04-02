@@ -46,42 +46,79 @@ Arborescence du projet (non exhaustif)
 Projet développé par fr.mosef.scala.template
 
 ├── Dockerfile
+
 ├── README.md
+
 ├── default
+
 ├── pom.xml
+
 ├── project
+
 ├── src
-│   └── main 
+
+│   └── main
+
 │       ├── resources
+
 │       │   ├── application.conf
+
 │       │   ├── output
+
 │       │   ├── rappelconso0.csv
+
 │       │   └── test_file.csv
+
 │       └── scala 
+
 │           └── fr
+
 │               └── mosef
+
 │                   └── scala
+
 │                       └── template
+
 │                           ├── Main.scala
+
 │                           ├── job
+
 │                           │   ├── Job.scala
+
 │                           │   └── impl
+
 │                           │       └── JobImpl.scala
+
 │                           ├── processor
+
 │                           │   ├── Processor.scala
+
 │                           │   └── impl
+
 │                           │       ├── ProcessorImpl.scala
+
 │                           │       └── processorImpl
+
 │                           ├── reader
+
 │                           │   ├── Reader.scala
+
 │                           │   └── impl
+
 │                           │       └── ReaderImpl.scala
+
 │                           └── writer
+
 │                               ├── Writer.scala
+
 │                               └── impl
+
 │                                   └── PartitionerImpl.scala
+
 └── target  
+
     ├── scala_spark_mosef_vazelle-1.1-jar-with-dependencies.jar
+    
     └── scala_spark_mosef_vazelle-1.1.jar
 
 
