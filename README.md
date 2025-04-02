@@ -16,18 +16,14 @@ csv → Format du fichier (peut être csv ou parquet).
 
 # Avec Docker
 
-
-$ docker run --rm \
+$docker run --rm \
   -e MASTER_URL='local[1]' \
-  -e SRC_PATH='/data/rappelconso0.csv' \
-  -e DST_PATH='/data/output/' \
+  -e SRC_PATH='/data/your_input_file.csv' \
+  -e DST_PATH='/data/output' \
   -e FORMAT='csv' \
-  -v /chemin/vers/ton/dossier/src/main/resources:/data \
-  -v /chemin/vers/ton/dossier/output:/data/output \
+  -v /absolute/path/to/your/resources:/data \
   scala-spark-image
 
-docker run --rm   -e MASTER_URL='local[1]'   -e SRC_PATH='/data/rappelconso0.csv'   -e 
-DST_PATH='/tmp/output/'   -e FORMAT='csv'   -v /mnt/c/Users/lucas/OneDrive/Documents/M2\ MSOEF/Linux/SCALA_projet/src/main/resources:/data   -v  /mnt/c/Users/lucas/OneDrive/Documents/M2\ MSOEF/Linux/SCALA_projet/default:/data/output   scala-spark-image
 
 
 
@@ -40,5 +36,3 @@ DST_PATH='/tmp/output/'   -e FORMAT='csv'   -v /mnt/c/Users/lucas/OneDrive/Docum
 
 
 
-
-M

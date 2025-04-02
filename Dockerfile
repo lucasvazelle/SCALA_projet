@@ -12,11 +12,11 @@ ENV SRC_PATH="/data/rappelconso0.csv"
 ENV DST_PATH="/data/output"
 ENV FORMAT="csv"
 
-# Exposer le répertoire temporaire pour les résultats
-VOLUME ["/tmp/output"]
+# On supprime la directive VOLUME qui utilisait /tmp/output
+# VOLUME ["/tmp/output"]
 
 # Utiliser la shell form pour que les variables d'environnement soient interprétées
 ENTRYPOINT /bin/sh -c "/usr/local/openjdk-11/bin/java -jar /app/scala-spark.jar ${MASTER_URL} ${SRC_PATH} ${DST_PATH} ${FORMAT}"
 
-# Commande par défaut (si tu veux la remplacer lors de l'exécution)
-CMD ["local[1]", "src/main/resources/rappelconso0.csv", "/tmp/output/", "csv"]
+# Commande par défaut (possibilité de remplacer lors de l'exécution)
+CMD ["local[1]", "/data/rappelconso0.csv", "/data/output", "csv"]
